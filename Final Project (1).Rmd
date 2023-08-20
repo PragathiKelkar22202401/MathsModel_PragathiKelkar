@@ -1,0 +1,406 @@
+---
+title: "Final Project"
+author: "Hanimi Reddy Golamari & 22202328"
+date: "2023-08-18"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+player_data <- read.table(text = "
+PlayerNo    card1    card2    card3    card4    card5    sumofcards    dealcard1    dealcard2    dealcard3    dealcard4    dealcard5    sumofdeal    blkjck    winloss    plybustbeat    dlbustbeat    plwinamt    dlwinamt    ply2cardsum
+Player1	7	10	0	0	0	17	10	8	0	0	0	18	nowin	Loss	Beat	Dlwin	0	10	17
+Player2	10	9	0	0	0	19	10	8	0	0	0	18	nowin	Win	Plwin	Beat	20	0	19
+Player3	9	8	0	0	0	17	10	8	0	0	0	18	nowin	Loss	Beat	Dlwin	0	10	17
+Player4	2	10	0	5	0	17	10	8	0	0	0	18	nowin	Loss	Beat	Dlwin	0	10	12
+Player5	10	2	0	5	0	17	10	8	0	0	0	18	nowin	Loss	Beat	Dlwin	0	10	12
+Player6	6	1	8	10	0	25	10	8	0	0	0	18	nowin	Loss	Bust	PlBust	0	10	7
+Player1	10	4	0	0	0	14	4	4	5	10	0	23	nowin	Win	DlBust	Bust	20	0	14
+Player2	3	10	0	0	0	13	4	4	5	10	0	23	nowin	Win	DlBust	Bust	20	0	13
+Player3	10	2	0	0	0	12	4	4	5	10	0	23	nowin	Win	DlBust	Bust	20	0	12
+Player4	9	6	0	0	0	15	4	4	5	10	0	23	nowin	Win	DlBust	Bust	20	0	15
+Player5	10	4	0	0	0	14	4	4	5	10	0	23	nowin	Win	DlBust	Bust	20	0	14
+Player6	3	5	2	4	0	14	4	4	5	10	0	23	nowin	Win	DlBust	Bust	20	0	8
+Player1	10	2	0	0	0	12	4	6	6	10	0	26	nowin	Win	DlBust	Bust	20	0	12
+Player2	9	10	0	0	0	19	4	6	6	10	0	26	nowin	Win	DlBust	Bust	20	0	19
+Player3	5	1	10	0	0	16	4	6	6	10	0	26	nowin	Win	DlBust	Bust	20	0	6
+Player4	10	10	0	0	0	20	4	6	6	10	0	26	nowin	Win	DlBust	Bust	20	0	20
+Player5	2	9	1	0	0	12	4	6	6	10	0	26	nowin	Win	DlBust	Bust	20	0	11
+Player6	9	5	0	0	0	14	4	6	6	10	0	26	nowin	Win	DlBust	Bust	20	0	14
+Player1	10	4	0	5	0	19	10	8	0	0	0	18	nowin	Win	Plwin	Beat	20	0	14
+Player2	2	10	0	5	0	17	10	8	0	0	0	18	nowin	Loss	Beat	Dlwin	0	10	12
+Player3	3	10	0	10	0	23	10	8	0	0	0	18	nowin	Loss	Bust	PlBust	0	10	13
+Player4	10	10	0	0	0	20	10	8	0	0	0	18	nowin	Win	Plwin	Beat	20	0	20
+Player5	10	10	0	0	0	20	10	8	0	0	0	18	nowin	Win	Plwin	Beat	20	0	20
+Player6	4	8	0	10	0	22	10	8	0	0	0	18	nowin	Loss	Bust	PlBust	0	10	12
+", header = TRUE)
+
+
+#setwd("C:/Users/User/Desktop/Hanimi_Edit")
+#player_datadata <- read.csv("blkjckhands.csv")
+
+# View the first 5 rows
+#head(player_datadata)
+```
+```{r}
+# Analyze player performance
+player_wins <- table(player_data$winloss=="Win")
+player_losses <- table(player_data$winloss=="Loss")
+player_wins
+player_losses
+```
+
+```{r}
+# Calculate player win and loss probabilities
+player_win_probabilities <- player_wins['TRUE'] / nrow(player_data)
+player_loss_probabilities <- player_losses['TRUE'] / nrow(player_data)
+player_win_probabilities
+player_loss_probabilities
+
+```
+
+```{r}
+# Create a data frame for plotting
+player_prob_df <- data.frame(Player = names(player_wins), WinProbability = player_win_probabilities, LossProbability = player_loss_probabilities)
+
+player_prob_df
+
+```
+
+```{r}
+
+# Create a data frame with the given results
+results <- data.frame(
+  Player = c("Win", "Loss"),
+  WinProbability = c(player_win_probabilities,player_loss_probabilities),
+  LossProbability = c(player_win_probabilities,player_loss_probabilities)
+)
+
+```
+
+
+```{r}
+# Reshape the data into a format suitable for plotting
+results_melted <- reshape2::melt(results, id.vars = "Player")
+
+# Define custom colors for the bars
+custom_colors <- c("WinProbability" = "#1f77b4", "LossProbability" = "#d62728")
+
+# Plot the stacked bar plot with custom colors
+ggplot(results_melted, aes(x = Player, y = value, fill = variable)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Player Win and Loss Probabilities", x = "Player", y = "Probability") +
+  scale_fill_manual(values = custom_colors) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+
+```{r}
+
+library(ggplot2)
+
+# Create a data frame with the given results
+results <- data.frame(
+  Outcome = c("Win vs Loss"),
+  PlayerWinProbability = c(player_win_probabilities),
+  PlayerLossProbability = c(player_loss_probabilities)
+)
+
+```
+
+```{r}
+
+# Reshape the data into a format suitable for plotting
+results_melted <- reshape2::melt(results, id.vars = "Outcome")
+
+# Plot the grouped bar plot
+ggplot(results_melted, aes(x = Outcome, y = value, fill = variable)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Bar Plot showing win and loss probabilities for all players in all rounds", x = "Outcome", y = "Probability") +
+  scale_fill_manual(values = c("PlayerWinProbability" = "yellow", "PlayerLossProbability" = "black")) +
+  theme_minimal()
+
+# Part 2:
+
+# Simulate multiplayer games and analyze strategies
+simulate_multiplayer <- function(player_card_sum, dealer_card_sum, num_draws, num_players, num_simulations = 10000) {
+  player_card_sums <- rep(player_card_sum, num_simulations)
+  dealer_card_sums <- rep(dealer_card_sum, num_simulations)
+  player_draws <- rep(num_draws, num_simulations)
+  
+  new_card_sums <- player_card_sums + rowSums(replicate(num_draws, matrix(sample(1:10, num_simulations, replace = TRUE), ncol = num_simulations)))
+  player_wins <- (new_card_sums <= 21) & (new_card_sums > dealer_card_sums)
+  player_win_prob <- mean(player_wins)
+  
+  return(player_win_prob)
+}
+
+# Create a data frame to store multiplayer probabilities
+multiplayer_probabilities <- data.frame(
+  Player = character(0),
+  NumDraws = numeric(0),
+  NumPlayers = numeric(0),
+  Probability = numeric(0)
+)
+
+# Loop through each player and scenario to calculate multiplayer probabilities
+for (player_index in 1:nrow(player_data)) {
+  player_card_sum <- player_data$sumofcards[player_index]
+  dealer_card_sum <- player_data$sumofdeal[player_index]
+  
+  for (num_draws in c(-1, 2, 3)) {
+    if (num_draws == -1) next  # Skip negative number of draws
+    for (num_players in 4:7) {
+      player_win_prob <- simulate_multiplayer(player_card_sum, dealer_card_sum, num_draws, num_players)
+      multiplayer_probabilities <- rbind(multiplayer_probabilities, 
+                                          data.frame(Player = player_data$PlayerNo[player_index],
+                                                     NumDraws = num_draws,
+                                                     NumPlayers = num_players,
+                                                     Probability = player_win_prob))
+    }
+  }
+}
+
+# Create plots for multiplayer probabilities
+ggplot(multiplayer_probabilities, aes(x = factor(NumDraws), y = Probability, color = Player, group = NumPlayers)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~ NumPlayers, scales = "free_y") +
+  labs(title = "Multiplayer Win Probability Based on Card Draws",
+       x = "Number of Card Draws",
+       y = "Win Probability") +
+  scale_color_brewer(palette = "Set1") +
+  theme_minimal()
+
+
+player_data$strategy <- ifelse(player_data$card1 + player_data$card2 <= 12, "basic",
+                               ifelse(player_data$card1 + player_data$card2 >= 18, "aggressive", "balanced"))
+
+# Function to calculate the probability of winning for a player in a given scenario
+calculate_probability <- function(player_card_sum, dealer_card_sum, player_draws) {
+  wins <- replicate(10000, {
+    player_wins <- sum(replicate(100, simulate_game(player_card_sum, dealer_card_sum, player_draws)))
+    player_win_prob <- player_wins / 100
+    return(player_win_prob)
+  })
+  return(mean(wins))
+}
+
+# Function to simulate a single game outcome
+simulate_game <- function(player_card_sum, dealer_card_sum, player_draws) {
+  player_new_sum <- player_card_sum + sum(sample(1:10, player_draws, replace = TRUE))
+  player_win <- player_new_sum <= 21 && player_new_sum > dealer_card_sum
+  return(player_win)
+}
+
+# Calculate probability of winning for each player with new card or staying
+for (player_index in 1:nrow(player_data)) {
+  player_card_sum <- player_data$sumofcards[player_index]
+  dealer_card_sum <- player_data$sumofdeal[player_index]
+  
+  # Calculate probability with new card
+  win_with_new_card <- calculate_probability(player_card_sum, dealer_card_sum, 1)
+  
+  # Calculate probability without taking a new card (staying)
+  win_without_new_card <- calculate_probability(player_card_sum, dealer_card_sum, 0)
+  
+  cat(paste("Player:", player_data$PlayerNo[player_index], "Win Probability with New Card:", win_with_new_card, "Win Probability without New Card:", win_without_new_card, "\n"))
+}
+
+# Print player strategies
+
+unique_strategies <- unique(player_data$strategy)
+for (strategy in unique_strategies) {
+  cat(paste("Players with", strategy, "strategy:", paste(player_data$PlayerNo[player_data$strategy == strategy], collapse = ", "), "\n"))
+}
+
+
+
+
+
+player_data$strategy 
+
+```
+
+```{r}
+
+
+
+# Simulate multiplayer games using Monte Carlo and compare with dataset
+for (player_index in 1:nrow(player_data)) {
+  player_card_sum <- player_data$sumofcards[player_index]
+  dealer_card_sum <- player_data$sumofdeal[player_index]
+  
+  # Simulate using Monte Carlo
+  monte_carlo_win_prob <- simulate_multiplayer(player_card_sum, dealer_card_sum, 1, 4)
+  
+  # Compare with dataset
+  dataset_win_prob <- calculate_probability(player_card_sum, dealer_card_sum, 1)
+  
+  cat(paste("Player:", player_data$PlayerNo[player_index], "Monte Carlo Win Probability:", monte_carlo_win_prob, "Dataset Win Probability:", dataset_win_prob, "\n"))
+}
+
+# Simulate and plot winning probabilities with different card draws
+num_draws <- c(-1, 2, 3)
+for (player_index in 1:nrow(player_data)) {
+  player_card_sum <- player_data$sumofcards[player_index]
+  dealer_card_sum <- player_data$sumofdeal[player_index]
+  
+  prob_list <- numeric(length(num_draws))
+  for (i in seq_along(num_draws)) {
+    prob_list[i] <- calculate_probability(player_card_sum, dealer_card_sum, num_draws[i])
+  }
+  
+  player_name <- player_data$PlayerNo[player_index]
+  plot_data <- data.frame(NumDraws = num_draws, Probability = prob_list)
+  ggplot(plot_data, aes(x = NumDraws, y = Probability)) +
+    geom_line() +
+    geom_point() +
+    labs(title = paste("Win Probability Based on Card Draws for", player_name),
+         x = "Number of Card Draws",
+         y = "Win Probability") +
+    theme_minimal()
+}
+
+
+
+
+```
+
+```{r}
+
+
+
+
+```
+
+```{r}
+# Create a data frame to store the probabilities for different scenarios
+player_probabilities <- data.frame(
+  Player = character(0),
+  NumDraws = numeric(0),
+  Probability = numeric(0)
+)
+
+# Loop through each player and scenario to calculate probabilities
+for (player_index in 1:nrow(player_data)) {
+  player_card_sum <- player_data$sumofcards[player_index]
+  dealer_card_sum <- player_data$sumofdeal[player_index]
+  
+  for (num_draws in c(-1, 2, 3)) {
+    if (num_draws == -1) next  # Skip negative number of draws
+    player_win_prob <- calculate_probability(player_card_sum, dealer_card_sum, num_draws)
+    player_probabilities <- rbind(player_probabilities, 
+                                  data.frame(Player = player_data$PlayerNo[player_index],
+                                             NumDraws = num_draws,
+                                             Probability = player_win_prob))
+  }
+}
+
+# Create a plot showing the probabilities for each player and scenario
+ggplot(player_probabilities, aes(x = factor(NumDraws), y = Probability, fill = Player)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Player Win Probability Based on Card Draws",
+       x = "Number of Card Draws",
+       y = "Win Probability") +
+  scale_fill_brewer(palette = "Set1") +
+  theme_minimal()
+```
+
+```{r}
+
+
+# Function to simulate multiple game outcomes and calculate probabilities
+simulate_games <- function(player_card_sum, dealer_card_sum, num_draws, num_simulations = 10000) {
+  player_card_sums <- rep(player_card_sum, num_simulations)
+  dealer_card_sums <- rep(dealer_card_sum, num_simulations)
+  player_draws <- rep(num_draws, num_simulations)
+  
+  new_card_sums <- player_card_sums + rowSums(replicate(num_draws, matrix(sample(1:10, num_simulations, replace = TRUE), ncol = num_simulations)))
+  player_wins <- (new_card_sums <= 21) & (new_card_sums > dealer_card_sums)
+  player_win_prob <- mean(player_wins)
+  
+  return(player_win_prob)
+}
+
+#code for creating an interactive scatter plot
+ggplot(player_data, aes(x = card1, y = card2, color = strategy)) +
+  geom_point() +
+  labs(title = "Relationship Between Card1 and Card2",
+       x = "Card1",
+       y = "Card2") +
+  theme_minimal() +
+  theme(legend.position = "right")
+
+```
+
+```{r}
+# Create a data frame to store the probabilities for different scenarios
+player_probabilities <- data.frame(
+  Player = character(0),
+  NumDraws = numeric(0),
+  Probability = numeric(0)
+)
+
+# Loop through each player and scenario to calculate probabilities
+for (player_index in 1:nrow(player_data)) {
+  player_card_sum <- player_data$sumofcards[player_index]
+  dealer_card_sum <- player_data$sumofdeal[player_index]
+  
+  for (num_draws in c(-1, 2, 3)) {
+    if (num_draws == -1) next  # Skip negative number of draws
+    player_win_prob <- simulate_games(player_card_sum, dealer_card_sum, num_draws)
+    player_probabilities <- rbind(player_probabilities, 
+                                  data.frame(Player = player_data$PlayerNo[player_index],
+                                             NumDraws = num_draws,
+                                             Probability = player_win_prob))
+  }
+}
+
+```
+
+```{r}
+# Install and load the 'corrplot' package if not already installed
+if (!requireNamespace("corrplot", quietly = TRUE)) {
+  install.packages("corrplot")
+}
+library(corrplot)
+
+# Calculate the correlation matrix
+correlation_matrix <- cor(player_data[, c("card1", "card2", "sumofcards", "dealcard1", "dealcard2", "sumofdeal")])
+
+# Create a heatmap
+corrplot(correlation_matrix, method = "color")
+
+# Create a plot showing the probabilities for each player and scenario using line plots
+ggplot(player_probabilities, aes(x = factor(NumDraws), y = Probability, color = Player)) +
+  geom_line(aes(group = Player)) +
+  geom_point() +
+  labs(title = "Player Win Probability Based on Card Draws",
+       x = "Number of Card Draws",
+       y = "Win Probability") +
+  scale_color_brewer(palette = "Set1") +
+  theme_minimal()
+
+# Exporting prediction
+#write.csv(data, "player_probabilities.csv", row.names = FALSE)
+
+```
