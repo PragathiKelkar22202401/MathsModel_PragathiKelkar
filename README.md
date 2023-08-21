@@ -120,13 +120,5 @@ You can suggest and give insights on how we can better the project or simulation
 
 
 ## Contract
-## Usage/Examples
 
-```javascript
-import Component from 'my-project'
-
-function App() {
-  return <Component />
-}
-```
 
