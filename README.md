@@ -7,9 +7,8 @@ This README includes an overview of the project, instructions for running the si
 
 <h1 align="center">Hi 👋, I'm Pragathi</h1>
 <h3 align="center">A graduate Student in UCD doing Masters in Data and Computational Science.</h3>
-
+<img align="right" alt=coding width= img src= "https://i.gifer.com/ALTb.gif">
 - 🔭 I’m currently working on **Single Deck Blackjack Simulationn**
-
 <h3 align="left">Connect with me:</h3>
 <p align="left">
 <a href="https://linkedin.com/in/pragathi kelkar" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="pragathi kelkar" height="30" width="40" /></a>
