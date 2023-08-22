@@ -11,7 +11,7 @@ This README includes an overview of the project, instructions for running the si
 - 🔭 I’m currently working on **Single Deck Blackjack Simulationn**
 <h3 align="left">Connect with me:</h3>
 <p align="left">
-<a href="https://linkedin.com/in/pragathi kelkar" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="pragathi kelkar" height="30" width="40" /></a>
+<a href="https://www.linkedin.com/in/pragathi-kelkar-220451115" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="Pragathi Kelkar" height="30" width="40" /></a>
 </p>
 
 <h3 align="left">Languages and Tools:</h3>
@@ -26,6 +26,7 @@ This README includes an overview of the project, instructions for running the si
 - [Usage](#usage)
 - [Simulation Details](#simulation-details)
 - [Results](#results)
+- [Pending Work](#pending_work)
 - [Future Scope](#future-scope)
 - [Contact](#contact)
 
@@ -152,17 +153,27 @@ The function called simulate_game that emulates the outcome of a single game in 
 
 ## Results
 
+-> According to the data we simulated we believe balanced strategy is best among all with higher winning percentage for single/multi player.However it cannot guarantee a win always.
+
 ![image](https://github.com/PragathiKelkar22202401/MathsModel_Test-repo/assets/118851955/59be778c-0f97-4a15-9e6e-f364e00c820d)
+
+-> Compares the prob of win across the huge data simulated using Monte Carlo.
 
 ** The x-axis displays the number of card draws, and the y-axis represents the win probability. The plot is organized into separate facets for each group of players, allowing for easier comparison of win probabilities.In essence, this code creates a comprehensive visualization to explore the relationship between card draws, player counts, and win probabilities in multiplayer scenarios.
 
 ![image](https://github.com/PragathiKelkar22202401/MathsModel_Test-repo/assets/118851955/5e9a5e66-c4a3-44f6-bf14-41754731ebad)
+
+->Considering the data chosen,we can see that except for player 2 others have almost same prob of 60% and they win mostly with 2 cards drawn than 3 cards.
 
 ** Each player's win probability is represented as a bar on the y-axis, while the x-axis displays the number of card draws. The bars are color-coded to represent different players. The bars are positioned side by side using the "dodge" setting to allow easy comparison across scenarios.  The x-axis label indicates the number of card draws, and the y-axis label represents the win probability. The color palette helps distinguish between players, and a minimal theme is applied to keep the plot clean and uncluttered. In essence, this code creates a clear and informative plot that showcases how the number of card draws influences win probabilities for different players in various scenarios.
 
 ![image](https://github.com/PragathiKelkar22202401/MathsModel_Test-repo/assets/118851955/d77b596d-c90d-412b-a590-d46bb9e65970)
 
 ** The corrplot library to generate a heatmap that visually represents the correlations. The color intensity in the heatmap corresponds to the strength and direction of correlations between variables. Overall, this code performs correlation analysis and produces a heatmap to aid in understanding relationships between different card-related variables for player and dealer interactions.
+
+## Pending Work
+
+-> Need to implement comparing strategies successfully.
 
 
 ## Future Scope
@@ -195,6 +206,5 @@ The code you've presented provides a solid foundation for analyzing blackjack ca
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
-<a href="https://linkedin.com/in/pragathi kelkar" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="pragathi kelkar" height="30" width="40" /></a>
+<a href="https://www.linkedin.com/in/pragathi-kelkar-220451115" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="Pragathi Kelkar" height="30" width="40" /></a>
 </p>
-
